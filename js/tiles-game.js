@@ -79,7 +79,7 @@ TilesGame.prototype = {
       });
     }
 
-    //shuffle(tiles); // comment this for half-God-mode :)
+    shuffle(tiles); // comment this for half-God-mode :)
 
     this.starttime = performance.now();
 

@@ -79,14 +79,20 @@ select {
   height: 28px;
 }
 
-.hidden {
-  display:none;
+.tile-enter {
+  opacity: 0.01;
+  transition: opacity 0.5s;
 }
 
-.sample-show-hide {
-  transition: all linear 0.5s;
+.tile-enter.tile-enter-active {
+  opacity: 1;
 }
 
-.sample-show-hide.ng-hide {
-  opacity: 0;
+.tile-leave {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.tile-leave.tile-leave-active {
+  opacity: 0.01;
 }
