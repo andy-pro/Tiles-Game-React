@@ -1,0 +1,92 @@
+*, *:after, *:before {
+  border: 0 none;
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.tile-table {
+  margin: 30px auto 0 auto;
+  border-radius: 10px;
+  border: 1px solid #26a69a;
+  border-spacing: 7px 7px;
+}
+
+.tile-table > div {
+  display: block;
+}
+
+.tile-table > div > div {
+  display: inline-block;
+}
+
+td.nest {
+  width: 100px;
+  height: 100px;
+}
+
+.nest-tile {
+  height: 85px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 2px orange inset;
+  color: #477;
+  text-align: center;
+  font-size: 13px;
+  padding-top: 14px;
+}
+
+.nest-tile:hover, .btn:hover {
+  cursor: pointer;
+  box-shadow: 0 0 10px orange;
+}
+
+.btn.large {
+  font-size: 1.2em;
+  padding: 12px 45px;
+}
+
+.rounded {
+  border-radius: 5px;
+}
+
+.btn, button, [type="button"], [type="submit"] {
+  background-color: #26a69a;
+  color: white;
+  display: inline-block;
+  margin: 0 0.5em 0.5em 0;
+  padding: 0.5em 1em;
+}
+
+button.gameover {
+  background-color: orange;
+}
+
+.spaced {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+select {
+  border-radius: 5px;
+  border: 1px solid #26a69a;
+  height: 28px;
+}
+
+.hidden {
+  display:none;
+}
+
+.sample-show-hide {
+  transition: all linear 0.5s;
+}
+
+.sample-show-hide.ng-hide {
+  opacity: 0;
+}
