@@ -7,9 +7,18 @@
   "description": "tiles game React version",
   "main": "index.html",
   "devDependencies": {
-    "http-server": "^0.9.0"
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "http-server": "^0.9.0",
+    "webpack": "^1.13.1"
   },
   "scripts": {
     "start": "http-server -a localhost -p 8080 -c-1"
+  },
+  "dependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
   }
 }

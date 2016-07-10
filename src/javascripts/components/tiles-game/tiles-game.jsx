@@ -2,28 +2,52 @@
   Tiles Classic Game
   andy.pro
   https://github.com/andy-pro/Tiles-Game-React
-  react
-  22.06.2016
+  React
+  10.07.2016
 */
 
 'use strict';
 
-var TilesGameApp = React.createClass({
+import Logic from './logic';
+import React from 'react';
+import CSSTransition from 'react-addons-css-transition-group';
 
-  icons: [
-    // visit 'http://fontawesome.io/icons' for details
-    "bluetooth", "youtube-square", "envira", "bank", "car",
-    "binoculars", "camera-retro", "firefox", "futbol-o", "cogs"
-  ],
+export default class TilesGame extends React.Component {
 
-  presets: [
-    {pairs: 6, cols: 4}, // beginner, level 1
-    {pairs: 8, cols: 4}, // medium, level 2
-    {pairs: 10, cols: 5} // expert, level 3
-  ],
+  constructor(props) {
 
-  start: function() {
-    var level = +(this.state ? this.state.level : (this.props.level || "2"));
+    super(props);
+
+    this.icons = [
+      // visit 'http://fontawesome.io/icons' for details
+      "bluetooth", "youtube-square", "envira", "bank", "car",
+      "binoculars", "camera-retro", "firefox", "futbol-o", "cogs"
+    ];
+
+    this.presets = [
+      {pairs: 6, cols: 4}, // beginner, level 1
+      {pairs: 8, cols: 4}, // medium, level 2
+      {pairs: 10, cols: 5} // expert, level 3
+    ];
+
+    // Bind instance methods / callbacks to the instance
+    // http://www.newmediacampaigns.com/blog/refactoring-react-components-to-es6-classes
+    this.restart = this.restart.bind(this);
+    this.changeLevel = this.changeLevel.bind(this);
+    this.game = new Logic({
+      on_show: this.showTile.bind(this),
+      on_hide: this.hideTile.bind(this),
+      on_miss: this.hideTwix.bind(this),
+      on_hit: this.removeTwix.bind(this),
+      on_gameover: this.gameOver.bind(this)
+    });
+
+    this.state = this.start();
+
+  }
+
+  start() {
+    const level = +(this.state ? this.state.level : this.props.level);
     if(level < 1 || level > this.presets.length) {
       throw "you choosed invalid level!";
     }
@@ -47,65 +71,52 @@ var TilesGameApp = React.createClass({
       time: '',
       level: level
     }
-  },
+  }
 
-  restart: function() {
+  restart() {
     this.setState(this.start());
-  },
+  }
 
-  changeLevel: function(event) {
+  changeLevel(event) {
     this.setState({
       level: event.target.value
     });
-  },
+  }
 
-  getInitialState: function() {
-    this.game = new TilesGame({
-      on_show: this.showTile,
-      on_hide: this.hideTile,
-      on_miss: this.hideTwix,
-      on_hit: this.removeTwix,
-      on_gameover: this.gameOver
-    });
-    return this.start();
-  },
-
-  gameOver: function(time) {
+  gameOver(time) {
     this.setState({
       button: {caption: 'Congratulations!', class: 'gameover'},
       time: 'Your time: ' + time + ' s'
     });
-  },
+  }
 
-  showTile: function(tile) {
+  showTile(tile) {
     tile.show = true;
     this.forceUpdate();
-  },
+  }
 
-  hideTile: function(tile) {
+  hideTile(tile) {
     tile.show = false;
     this.forceUpdate();
-  },
+  }
 
-  removeTwix: function(tile1, tile2) {
-    var self = this;
-    setTimeout(function() {
+  removeTwix(tile1, tile2) {
+    setTimeout( () => {
       tile1.remove = true;
       tile2.remove = true;
-      self.forceUpdate();
+      this.forceUpdate();
     }, 500);
-  },
+  }
 
-  hideTwix: function(tile1, tile2) {
-    var self = this;
-    setTimeout(function() {
+  hideTwix(tile1, tile2) {
+    setTimeout( () => {
       tile1.show = false;
       tile2.show = false;
-      self.forceUpdate();
+      this.forceUpdate();
     }, 500);
-  },
+  }
 
-  render: function() {
+  render() {
     var icons = this.icons,
         pick = this.game.pick,
         pickthis = this.game;
@@ -113,10 +124,10 @@ var TilesGameApp = React.createClass({
       <div className="tiles-game">
         <table className="tile-table">
           <tbody>
-            { this.state.tiles.map(function(row, index) {
+            { this.state.tiles.map( (row, index) => {
               return (
                 <tr key={index}>
-                  { row.map(function(tile, j) {
+                  { row.map( (tile, j) => {
                     return (
                       <td className="nest" key={tile.id}>
                         <CSSTransition
@@ -165,11 +176,7 @@ var TilesGameApp = React.createClass({
     );
   }
 
-});
+}
 
-var CSSTransition = React.addons.CSSTransitionGroup;
-
-ReactDOM.render(
-  <TilesGameApp level="2" />,
-  document.getElementById('game')
-);
+TilesGame.propTypes = { level: React.PropTypes.string };
+TilesGame.defaultProps = { level: '2' };

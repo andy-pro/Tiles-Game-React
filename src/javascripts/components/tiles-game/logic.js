@@ -1,31 +1,32 @@
 /*
   Tiles Classic Game
   andy.pro
-  https://github.com/andy-pro/Tiles-Game
-  angular
-  20.06.2016
+  https://github.com/andy-pro/Tiles-Game-React
+  10.07.2016
 */
 
 'use strict';
 
-function TilesGame(opts) {
-  function dummy() {};
-  var self = this;
-  // events binding
-  [ 'on_show',
-    'on_hide',
-    'on_hit',
-    'on_miss',
-    'on_gameover' ]
-  .forEach(function(opt) {
-    self[opt] = opts[opt] || dummy;
-  });
-}
+export default class TilesGameLogic {
 
-TilesGame.prototype = {
+  constructor(opts) {
+    var dummy = () => {};
+    // events binding
+    [ 'on_show',
+      'on_hide',
+      'on_hit',
+      'on_miss',
+      'on_gameover' ]
+    .forEach(
+      opt => { this[opt] = opts[opt] || dummy }
+    );
+  }
 
-  pick: function(latter) {
+  pick(latter) {
     // vars 'latter' and 'former' match the current and previous tiles
+    if(NODE_ENV == 'development') {
+      console.log(latter);
+    }
     var former = this.former;
     if(former === null) { // first click for pair
       this.former = latter;
@@ -48,13 +49,13 @@ TilesGame.prototype = {
       // after second click we must reset previous tile
       this.former = null;
     }
-  },
+  }
 
-  start: function(num_pairs) {
+  start(num_pairs) {
 
     // Shuffles an array in-place.
     // Source: http://stackoverflow.com/a/12646864
-    function shuffle(array) {
+    var shuffle = array => {
       for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = array[i];
